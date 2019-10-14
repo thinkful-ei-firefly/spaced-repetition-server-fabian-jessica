@@ -46,7 +46,7 @@ const UserService = {
       const [languageId] = await trx
         .into('language')
         .insert([
-          { name: 'French', user_id },
+          { name: 'Italian', user_id },
         ], ['id'])
 
       // when inserting words,
@@ -58,16 +58,29 @@ const UserService = {
         .first()
 
       const languageWords = [
-        ['entraine toi', 'practice', 2],
-        ['bonjour', 'hello', 3],
-        ['maison', 'house', 4],
-        ['développeur', 'developer', 5],
-        ['traduire', 'translate', 6],
-        ['incroyable', 'amazing', 7],
-        ['chien', 'dog', 8],
-        ['chat', 'cat', null],
+        ['gatto', 'cat', 2],
+        ['cane', 'dog', 3],
+        ['ucello', 'bird', 4],
+        ['mucca', 'cow', 5],
+        ['cavallo', 'horse', 6],
+        ['colori', 'colors', 7],
+        ['rosso', 'red', 8],
+        ['giallo', 'yellow', 9],
+        ['verde', 'green', 10],
+        ['blu', 'blue', 11],
+        ['viola', 'purple', 12],
+        ['bianco', 'white', 13],
+        ['nero', 'black', 14],
+        ['pane', 'bread', 15],
+        ['formaggio', 'cheese', 16],
+        ['pollo', 'chicken', 17],
+        ['pesce', 'fish', 18],
+        ['frutta', 'fruit', 19],
+        ['carne', 'meat', 20],
+        ['insalata', 'salad', 21],
+        ['mela', 'apple', 22],
+        ['uva', 'grapes', null],
       ]
-
       const [languageHeadId] = await trx
         .into('word')
         .insert(
