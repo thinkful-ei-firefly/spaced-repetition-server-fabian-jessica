@@ -1,6 +1,7 @@
 const express = require('express')
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
+const jsonBodyParser = express.json()
 
 const languageRouter = express.Router()
 
@@ -63,9 +64,64 @@ languageRouter
   })
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
-    // implement me
-    res.send('implement me!')
+  .post('/guess', jsonBodyParser, async (req, res, next) => {
+    try {
+      const guess = req.body.guess
+
+      if (!guess) {
+        res.status(400).json({error: 'Missing "guess" in request body'})
+      }
+
+      const head = await LanguageService.getHead(
+        req.app.get('db'),
+        req.language.head,
+      )
+      const words = await LanguageService.getLanguageWords(
+        req.app.get('db'),
+        req.language.id,
+      )
+
+      const languageData = req.language
+
+      if (guess.toLowerCase() === head.translation.toLowerCase()) {
+        head.memory_value *= 2
+        head.correct_count ++
+        languageData.total_score++
+      }
+      else {
+        head.memory_value = 1
+        head.incorrect_count ++
+      }
+
+      const LinkedList = LanguageService.wordsArrayToList(words, head)
+      const modifiedNodes = LanguageService.moveHeadBack(LinkedList, head.memory_value)
+
+      const wordArray = LanguageService.listToWordsArray(LinkedList)
+      languageData.head = wordArray[0].id
+
+      //update language parameters in DB
+      const newHead = await LanguageService.updateHead(req.app.get('db'), languageData.user_id, languageData)
+
+      //update word values in DB
+      for (let i = 0; i < modifiedNodes.length; i++) {
+        await LanguageService.updateWord(req.app.get('db'), modifiedNodes[i].id, modifiedNodes[i])
+      }
+
+      //return response to user     
+
+      res.json({ 
+        "nextWord": wordArray[0].original,
+        "wordCorrectCount": wordArray[0].correct_count,
+        "wordIncorrectCount": wordArray[0].incorrect_count,
+        "totalScore": languageData.total_score,
+        "answer": head.translation,
+        "isCorrect": guess.toLowerCase() === head.translation.toLowerCase()
+      })
+      next()
+    } catch (error) {
+      next(error)
+    }
+    
   })
 
 module.exports = languageRouter
