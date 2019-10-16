@@ -69,7 +69,7 @@ languageRouter
       const guess = req.body.guess
 
       if (!guess) {
-        res.status(400).json({error: 'Missing "guess" in request body'})
+        res.status(400).json({error: "Missing 'guess' in request body"})
       }
 
       const head = await LanguageService.getHead(
