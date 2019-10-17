@@ -1,5 +1,91 @@
 # Spaced repetition API!
 
+This app helps people memorize the Italian language. The app will display words in Italian, and ask you to recall the corresponding word in English.
+
+- [Authors](#authors)
+- [Demo](#demo)
+- [Technologies](#technologies)
+- [Database schema](#database-schema)
+- [Main Url](#main-url)
+- [User](#user)
+- [Word](#word)
+- [Language](#language)
+- [Local dev setup](#local-dev-setup)
+
+## Authors
+[Jessica Doyle](https://github.com/jedoyle6)  
+[Fabian Lema](https://github.com/fabianlema15)  
+
+## Demo
+
+Click on the next link: [Demo](https://easy-italian-api.herokuapp.com/)
+
+## Technologies
+
+>NodeJS  
+Express  
+Postgresql  
+
+
+## Database schema
+
+![App Image](/images/database.png)
+
+
+## Main URL  
+`https://easy-italian-api.herokuapp.com/api`
+
+## User
+
+Create users allowed to use the app.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | Serial | Yes | User id generated automatically |
+| username | Text | Yes | User username (nickname) |
+| password | Text | Yes | User password |
+| name | Text | Yes | User name |
+
+
+| Resource | Method | Description |
+|-------|------|----------|
+| /user | POST | Save a new user and return it |
+
+## Word
+
+Table with information about each word to be learned.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | Serial | Yes | User id generated automatically |
+| original | Text | Yes | User username (nickname) |
+| translation | Text | Yes | User password |
+| memory_value | Smaillint | Yes | User name |
+| correct_count | Smaillint | Yes | User name |
+| incorrect_count | Smaillint | Yes | User name |
+| language_id | Integer | Yes | Reference to language table |
+| next | Integer | Yes | Reference to self table |
+
+## Language
+
+Create, edit and delete users allowed to use the app.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | Serial | Yes | User id generated automatically |
+| name | Text | Yes | User username (nickname) |
+| total_score | Smaillint | Yes | User password |
+| user_id | Integer | Yes | Reference to user table |
+| head | Integer | Yes | Reference to word table |
+
+
+| Resource | Method | Description |
+|-------|------|----------|
+| /language | GET | Return list of word to learn |
+| /language/head | GET | Return the first word on the list to learn |
+| /language/guess | POST | Return the answer feedback and the next word to be learned  |
+
+
 ## Local dev setup
 
 If using user `dunder-mifflin`:
