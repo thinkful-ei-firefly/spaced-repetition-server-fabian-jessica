@@ -10,6 +10,7 @@ This app helps people memorize the Italian language. The app will display words 
 - [User](#user)
 - [Word](#word)
 - [Language](#language)
+- [Authentication](#authentication)
 - [Local dev setup](#local-dev-setup)
 
 ## Authors
@@ -68,7 +69,7 @@ Table with information about each word to be learned.
 
 ## Language
 
-Create, edit and delete users allowed to use the app.
+Get words to be learned.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -84,6 +85,15 @@ Create, edit and delete users allowed to use the app.
 | /language | GET | Return list of word to learn |
 | /language/head | GET | Return the first word on the list to learn |
 | /language/guess | POST | Return the answer feedback and the next word to be learned  |
+
+## Authentication
+
+Used to login and return an authorization token.
+
+| Resource | Method | Description |
+|-------|------|----------|
+| /auth/token | POST | If the login is successful, this returns a token to be used as an authorization token.  |
+| | PUT | It creates a new token |
 
 
 ## Local dev setup
